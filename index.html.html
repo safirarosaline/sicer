@@ -187,7 +187,44 @@
             </div>
         </div>
     </div>
-
+    
+<!-- MODAL POP-UP (GURU: UPLOAD E-BOOK BARU) -->
+<div class="modal fade" id="modalEbook" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Upload E-Book Pembelajaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="simpanEbookBaru(event)">
+                    <div class="mb-3">
+                        <label class="form-label">Mata Pelajaran</label>
+                        <select class="form-select" id="mapelEbook" required>
+                            <option value="Matematika">Matematika</option>
+                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                            <option value="IPA / Fisika">IPA / Fisika</option>
+                            <option value="Bahasa Inggris">Bahasa Inggris</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Judul Buku / Materi</label>
+                        <input type="text" class="form-control" id="judulEbook" placeholder="Contoh: Bab 1 - Struktur Atom" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Pilih File E-Book (PDF)</label>
+                        <input type="file" class="form-control" id="fileEbook" accept=".pdf" required>
+                    </div>
+                    <div class="text-end">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">Upload Buku</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
     <!-- Bootstrap 5 JavaScript Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -198,10 +235,10 @@
         // --- 1. STATE DASAR & DATA DUMMY ---
         let currentUserRole = "guru"; // "guru" atau "siswa"
         
-        // Lokasi Titik Pusat Sekolah (Contoh Koordinat Dummy)
+        // Lokasi Titik Pusat Sekolah (SMP IT BAITUL JANNAH)
         const LOKASI_SEKOLAH = {
-            latitude: -5.397140,
-            longitude: 105.266789,
+            latitude: -5.3861946,
+            longitude: 105.2177218,
             radiusMaksimalMeter: 100
         };
 
