@@ -7,75 +7,283 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f4f7f6;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --bj-green: #2d7e5e;
+            --bj-green-dark: #205c45;
+            --bj-green-light: #e9f5f0;
+            --bj-gray: #f8fafc;
         }
-        .login-container {
+
+        body {
+            background-color: var(--bj-gray);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #334155;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* ========================================== */
+        /* SPLASH SCREEN & LOGIN AREA MODERN          */
+        /* ========================================== */
+        #loginArea {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--bj-green-light) 100%);
+        }
+
+        .modern-login-box {
+            width: 100%;
             max-width: 440px;
-            margin: 60px auto;
+            text-align: center;
+        }
+
+        /* Logo Sentral yang Bisa Diklik */
+        .bj-logo-container {
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .bj-logo {
+            width: 140px;
+            height: 140px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 35px rgba(45, 126, 94, 0.18);
+            transition: all 0.5s ease;
+            font-size: 55px;
+            font-weight: bold;
+            color: var(--bj-green);
+            border: 5px solid var(--bj-green-light);
+            margin: 0 auto;
+        }
+
+        .bj-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(45, 126, 94, 0.25);
+        }
+
+        .ketuk-prompt {
+            font-size: 14px;
+            color: var(--bj-green);
+            font-weight: 600;
+            margin-top: 15px;
+            animation: pulse-text 2s infinite;
+        }
+
+        /* Transformasi Logo Saat Aktif */
+        .modern-login-box.active .bj-logo-container {
+            transform: scale(0.7);
+            margin-bottom: 5px;
+        }
+
+        /* Layar Pilihan Role */
+        .role-selection-screen {
+            display: none;
+            margin-top: 10px;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .role-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .role-card:hover {
+            border-color: var(--bj-green);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(45, 126, 94, 0.1);
+        }
+
+        .role-icon {
+            font-size: 35px;
+            margin-right: 18px;
+        }
+
+        .role-text h5 {
+            margin: 0;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .role-text p {
+            margin: 0;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Form Login */
+        .login-form-screen {
+            display: none;
             background: white;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            text-align: left;
+            margin-top: 10px;
+            animation: fadeIn 0.4s ease forwards;
         }
-        .main-app {
-            display: none;
-        }
-        .sidebar {
-            min-height: 100vh;
-            background: #1e293b;
-            color: white;
-            padding: 20px;
-        }
-        .sidebar a {
-            color: #94a3b8;
+
+        .btn-back-role {
+            font-size: 13px;
+            color: #64748b;
+            cursor: pointer;
             text-decoration: none;
-            display: block;
-            margin: 8px 0;
+            margin-bottom: 15px;
+            display: inline-block;
+            font-weight: 500;
+        }
+        .btn-back-role:hover { color: var(--bj-green); }
+
+        .form-control, .form-select {
+            border-radius: 10px;
             padding: 12px 15px;
-            border-radius: 8px;
-            transition: all 0.2s;
+            border: 1px solid #e2e8f0;
         }
-        .sidebar a:hover, .sidebar a.active {
-            background: #334155;
-            color: #ffffff;
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--bj-green);
+            box-shadow: 0 0 0 3px rgba(45, 126, 94, 0.1);
         }
-        .card-custom {
+
+        .btn-success {
+            background-color: var(--bj-green);
             border: none;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 12px;
+        }
+
+        .btn-success:hover {
+            background-color: var(--bj-green-dark);
+        }
+
+        /* DASHBOARD AREA */
+        .main-app { display: none; }
+        .sidebar {
+            min-height: 100vh;
+            background: #ffffff;
+            color: #334155;
+            padding: 20px;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .sidebar-user-box {
+            background: var(--bj-green-light);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .sidebar a {
+            color: #64748b;
+            text-decoration: none;
+            display: block;
+            margin: 6px 0;
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background: var(--bj-green-light);
+            color: var(--bj-green);
+        }
+
+        .card-custom {
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        @keyframes pulse-text {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; transform: scale(1.03); }
+            100% { opacity: 0.6; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
     <!-- ========================================== -->
-    <!-- 1. FORM LOGIN NISN / NIP                   -->
+    <!-- 1. SPLASH SCREEN / LOGIN AREA              -->
     <!-- ========================================== -->
-    <div class="login-container" id="loginArea">
-        <div class="text-center mb-4">
-            <h3 class="fw-bold text-success">SMP IT Baitul Jannah</h3>
-            <p class="text-muted small">Portal Akademik & Presensi Siswa/Guru</p>
+    <div id="loginArea">
+        <div class="modern-login-box" id="loginBox">
+            
+            <!-- Logo BJ Sentral (Bisa Diklik) -->
+            <div class="bj-logo-container" onclick="aktifkanLoginForm()">
+                <div class="bj-logo">BJ</div>
+                <div class="ketuk-prompt" id="ketukText">👇 Ketuk Logo untuk Masuk 👇</div>
+            </div>
+
+            <!-- Pilihan Role (Siswa / Guru) -->
+            <div class="role-selection-screen" id="roleSelection">
+                <h4 class="fw-bold mb-1" style="color:var(--bj-green)">SMP IT Baitul Jannah</h4>
+                <p class="text-muted small mb-4">Pilih Peran Anda untuk Masuk</p>
+
+                <div class="role-card" onclick="pilihRoleDanLanjut('siswa')">
+                    <div class="role-icon">🧑‍🎓</div>
+                    <div class="role-text">
+                        <h5>Siswa</h5>
+                        <p>Akses tugas, e-book, dan absen GPS</p>
+                    </div>
+                </div>
+
+                <div class="role-card" onclick="pilihRoleDanLanjut('guru')">
+                    <div class="role-icon">👩‍🏫</div>
+                    <div class="role-text">
+                        <h5>Guru / Pengajar</h5>
+                        <p>Kelola materi, tugas, dan rekap</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Input Login -->
+            <div class="login-form-screen" id="loginFormArea">
+                <a class="btn-back-role" onclick="kembaliKePilihanRole()">← Kembali Pilih Peran</a>
+                
+                <h4 class="fw-bold mb-1" style="color:var(--bj-green)">Login <span id="textRoleLogin">Siswa</span></h4>
+                <p class="text-muted small mb-4">SMP IT Baitul Jannah Bandar Lampung</p>
+
+                <form onsubmit="prosesLogin(event)">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="namaInput" placeholder="Sesuai daftar hadir" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" id="labelNomorIdentitas">NISN Siswa</label>
+                        <input type="number" class="form-control" id="nomorIdentitasInput" placeholder="Contoh: 0081234567" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success fw-bold w-100 mt-2 shadow-sm">
+                        Masuk ke Portal →
+                    </button>
+                </form>
+            </div>
+
         </div>
-        <form onsubmit="prosesLogin(event)">
-            <div class="mb-3">
-                <label class="form-label fw-bold">Peran (Role)</label>
-                <select class="form-select" id="roleInput" onchange="gantiFormRole()">
-                    <option value="siswa">Siswa</option>
-                    <option value="guru">Guru / Pengajar</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold">Nama Lengkap</label>
-                <input type="text" class="form-control" id="namaInput" placeholder="Masukkan nama lengkap" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold" id="labelNomorIdentitas">NISN (Nomor Induk Siswa Nasional)</label>
-                <input type="number" class="form-control" id="nomorIdentitasInput" placeholder="Contoh: 0081234567 (10 Digit)" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">Masuk ke Portal</button>
-        </form>
     </div>
 
     <!-- ========================================== -->
@@ -86,10 +294,10 @@
             
             <!-- Sidebar Navigation -->
             <div class="col-md-3 col-lg-2 sidebar">
-                <h5 class="fw-bold text-white mb-0">SICERdik</h5>
-                <small class="text-success d-block mb-2">Portal App</small>
-                <div class="p-2 bg-dark rounded mb-3" id="userRoleBadge"></div>
-                <hr class="border-secondary">
+                <h5 class="fw-bold mb-0" style="color:var(--bj-green);">Baitul Jannah</h5>
+                <small class="text-muted d-block mb-3">Portal App Sekolah</small>
+                
+                <div class="sidebar-user-box mb-4" id="userRoleBadge"></div>
                 
                 <nav class="nav flex-column">
                     <a href="#" class="nav-link active" onclick="tampilkanHalaman('halamanAbsen', this)">📍 Absensi GPS</a>
@@ -128,9 +336,7 @@
                             ➕ Unggah E-Book Baru
                         </button>
                     </div>
-                    <div class="row" id="containerEbook">
-                        <!-- Card E-book di-render lewat JS -->
-                    </div>
+                    <div class="row" id="containerEbook"></div>
                 </div>
 
                 <!-- C. HALAMAN TUGAS & DEADLINE -->
@@ -141,9 +347,7 @@
                             ➕ Buat Tugas Baru
                         </button>
                     </div>
-                    <div class="row" id="daftarTugasContainer">
-                        <!-- Card Tugas di-render lewat JS -->
-                    </div>
+                    <div class="row" id="daftarTugasContainer"></div>
                 </div>
 
             </div>
@@ -242,8 +446,8 @@
         let currentUserRole = "siswa";
         let userAktif = { nama: "", nomorIdentitas: "", role: "" };
 
-        // Titik Koordinat SMP IT Baitul Jannah 
-        const LOKASI_SEKOLAH = {SMP IT BAITUL JANNAH}
+        // Titik Koordinat SMP IT Baitul Jannah
+        const LOKASI_SEKOLAH = {
             latitude: -5.3861946,
             longitude: 105.2177218,
             radiusMaksimalMeter: 100
@@ -252,23 +456,32 @@
         let dataTugasList = [];
         let dataEbookList = [];
 
-        function gantiFormRole() {
-            const role = document.getElementById('roleInput').value;
-            const label = document.getElementById('labelNomorIdentitas');
-            const input = document.getElementById('nomorIdentitasInput');
+        // ANIMASI & FLOW LOGIN
+        function aktifkanLoginForm() {
+            document.getElementById('loginBox').classList.add('active');
+            document.getElementById('ketukText').style.display = 'none';
+            document.getElementById('roleSelection').style.display = 'block';
+        }
 
-            if (role === 'siswa') {
-                label.innerText = "NISN (Nomor Induk Siswa)";
-                input.placeholder = "Contoh: 0081234567 (10 Digit)";
-            } else {
-                label.innerText = "NIP / NIK Guru";
-                input.placeholder = "Contoh: 198501012010011001";
-            }
+        function pilihRoleDanLanjut(role) {
+            currentUserRole = role;
+
+            document.getElementById('textRoleLogin').innerText = role === 'siswa' ? 'Siswa' : 'Guru';
+            document.getElementById('labelNomorIdentitas').innerText = role === 'siswa' ? 'NISN Siswa' : 'NIP / NIK Guru';
+            document.getElementById('nomorIdentitasInput').placeholder = role === 'siswa' ? 'Contoh: 0081234567' : 'Contoh: 19850101...';
+
+            document.getElementById('roleSelection').style.display = 'none';
+            document.getElementById('loginFormArea').style.display = 'block';
+        }
+
+        function kembaliKePilihanRole() {
+            document.getElementById('loginFormArea').style.display = 'none';
+            document.getElementById('roleSelection').style.display = 'block';
         }
 
         function prosesLogin(event) {
             event.preventDefault();
-            currentUserRole = document.getElementById('roleInput').value;
+            
             const nama = document.getElementById('namaInput').value;
             const nomorIdentitas = document.getElementById('nomorIdentitasInput').value;
 
@@ -283,9 +496,13 @@
             document.getElementById('dashboardArea').style.display = 'block';
 
             document.getElementById('userRoleBadge').innerHTML = `
-                <span class="badge ${currentUserRole === 'guru' ? 'bg-primary' : 'bg-success'}">${currentUserRole.toUpperCase()}</span>
-                <div class="mt-1 fw-bold text-white">${userAktif.nama}</div>
-                <small class="text-muted" style="font-size:11px;">${currentUserRole === 'siswa' ? 'NISN: ' : 'NIP: '}${userAktif.nomorIdentitas}</small>
+                <span class="badge ${currentUserRole === 'guru' ? 'bg-primary' : 'bg-success'} mb-2 text-uppercase" style="font-size:11px;">
+                    ${currentUserRole} BJ
+                </span>
+                <div class="fw-bold text-dark">${userAktif.nama}</div>
+                <small class="text-muted d-block" style="font-size:12px;">
+                    ${currentUserRole === 'siswa' ? 'NISN: ' : 'NIP: '}${userAktif.nomorIdentitas}
+                </small>
             `;
 
             const tombolGuru = document.querySelectorAll('.btn-guru-only');
@@ -297,7 +514,14 @@
 
         function prosesLogout() {
             document.getElementById('dashboardArea').style.display = 'none';
-            document.getElementById('loginArea').style.display = 'block';
+            document.getElementById('loginArea').style.display = 'flex';
+
+            // Reset tampilan login ke keadaan semula
+            document.getElementById('loginBox').classList.remove('active');
+            document.getElementById('ketukText').style.display = 'block';
+            document.getElementById('roleSelection').style.display = 'none';
+            document.getElementById('loginFormArea').style.display = 'none';
+            document.getElementById('loginFormArea').querySelector('form').reset();
         }
 
         function tampilkanHalaman(idHalaman, elemenNav) {
@@ -324,21 +548,21 @@
 
                     if (jarakMeter <= LOKASI_SEKOLAH.radiusMaksimalMeter) {
                         statusDiv.innerHTML = `
-                            <div class="alert alert-success mb-0">
+                            <div class="alert alert-success mb-0 text-start">
                                 <strong>✅ Absen Berhasil!</strong><br>
-                                Nama: ${userAktif.nama}<br>
+                                Nama: <strong>${userAktif.nama}</strong><br>
                                 Jarak: <strong>${Math.round(jarakMeter)} meter</strong> dari sekolah.<br>
-                                <small>Waktu: ${new Date().toLocaleTimeString('id-ID')}</small>
+                                <small class="text-muted">Waktu: ${new Date().toLocaleTimeString('id-ID')}</small>
                             </div>`;
                     } else {
                         statusDiv.innerHTML = `
-                            <div class="alert alert-danger mb-0">
+                            <div class="alert alert-danger mb-0 text-start">
                                 <strong>❌ Absen Ditolak!</strong><br>
                                 Anda berada <strong>${Math.round(jarakMeter)} meter</strong> dari sekolah (Maksimal 100m).
                             </div>`;
                     }
                 },
-                () => { statusDiv.innerHTML = "<span class='text-danger'>⚠️ Gagal mengambil lokasi. Pastikan GPS aktif.</span>"; }
+                () => { statusDiv.innerHTML = "<span class='text-danger'>⚠️ Gagal mengambil lokasi. Pastikan izin lokasi aktif.</span>"; }
             );
         }
 
@@ -352,7 +576,7 @@
             return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         }
 
-        // E-BOOK LOGIC
+        // LOGIKA E-BOOK
         function simpanEbookBaru(event) {
             event.preventDefault();
             const mapel = document.getElementById('mapelEbook').value;
@@ -389,13 +613,13 @@
                         <div class="card card-custom p-3">
                             <span class="badge bg-secondary mb-2" style="width: fit-content;">${buku.mapel}</span>
                             <h5 class="fw-bold">${buku.judul}</h5>
-                            <a href="${buku.fileUrl}" target="_blank" class="btn btn-outline-success btn-sm mt-3">📖 Baca PDF</a>
+                            <a href="${buku.fileUrl}" target="_blank" class="btn btn-outline-success btn-sm mt-3 fw-semibold">📖 Baca PDF</a>
                         </div>
                     </div>`;
             });
         }
 
-        // TUGAS LOGIC
+        // LOGIKA TUGAS
         function simpanTugasBaru(event) {
             event.preventDefault();
             const deadlineVal = document.getElementById('deadlineTugas').value;
